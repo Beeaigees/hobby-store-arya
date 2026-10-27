@@ -1,10 +1,19 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Middleware\EnsureRole;
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', '/login');
+// Pintu masuk: arahkan sesuai status login dan role
+Route::get('/', function () {
+    return auth()->check()
+        ? redirect()->route(auth()->user()->homeRoute())
+        : redirect()->route('login');
+})->name('home');
 
 // Hanya untuk tamu (belum login)
 Route::middleware('guest')->group(function () {
@@ -17,8 +26,17 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register'])->name('register.store');
 });
 
-// Hanya untuk pengguna yang sudah login
+// Semua pengguna yang sudah login (Owner dan Staff)
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
+    // Khusus Owner
+    Route::middleware(EnsureRole::class . ':owner')->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('owner.dashboard');
+
+        Route::resource('categories', CategoryController::class)->except('show');
+        Route::resource('suppliers', SupplierController::class)->except('show');
+    });
 });

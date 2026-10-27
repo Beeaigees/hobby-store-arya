@@ -9,18 +9,50 @@
 <body class="bg-light">
 
 @auth
-    <nav class="navbar navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('dashboard') }}">{{ config('app.name') }}</a>
-            <div class="d-flex align-items-center gap-3 text-white">
-                <span>
-                    {{ auth()->user()->name }}
-                    <span class="badge bg-secondary">{{ auth()->user()->role }}</span>
-                </span>
-                <form action="{{ route('logout') }}" method="POST" class="m-0">
-                    @csrf
-                    <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
-                </form>
+            <a class="navbar-brand" href="{{ route('home') }}">{{ config('app.name') }}</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav me-auto">
+                    @if (auth()->user()->isOwner())
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('owner.dashboard') ? 'active' : '' }}"
+                               href="{{ route('owner.dashboard') }}">Dashboard</a>
+                        </li>
+                    @endif
+
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}"
+                           href="{{ route('products.index') }}">Produk</a>
+                    </li>
+
+                    @if (auth()->user()->isOwner())
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}"
+                               href="{{ route('categories.index') }}">Kategori</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('suppliers.*') ? 'active' : '' }}"
+                               href="{{ route('suppliers.index') }}">Supplier</a>
+                        </li>
+                    @endif
+                </ul>
+
+                <div class="d-flex align-items-center gap-3 text-white">
+                    <span>
+                        {{ auth()->user()->name }}
+                        <span class="badge bg-secondary">{{ auth()->user()->role }}</span>
+                    </span>
+                    <form action="{{ route('logout') }}" method="POST" class="m-0">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
+                    </form>
+                </div>
             </div>
         </div>
     </nav>
@@ -29,6 +61,10 @@
 <main class="container py-4">
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
 
     @yield('content')

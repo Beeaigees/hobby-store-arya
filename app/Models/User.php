@@ -41,6 +41,11 @@ class User extends Authenticatable
         return $this->role === 'staff';
     }
 
+    public function homeRoute(): string
+    {
+        return $this->isOwner() ? 'owner.dashboard' : 'products.index';
+    }
+
     public function sales(): HasMany
     {
         return $this->hasMany(Sale::class);
