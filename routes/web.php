@@ -38,5 +38,6 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('categories', CategoryController::class)->except('show');
         Route::resource('suppliers', SupplierController::class)->except('show');
+        Route::resource('products', ProductController::class)->except(['index', 'show']);
     });
 });
