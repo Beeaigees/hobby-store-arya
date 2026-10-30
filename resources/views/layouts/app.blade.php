@@ -19,6 +19,7 @@
 
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav me-auto">
+                    {{-- Menu khusus Owner: Dashboard --}}
                     @if (auth()->user()->isOwner())
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('owner.dashboard') ? 'active' : '' }}"
@@ -26,16 +27,17 @@
                         </li>
                     @endif
 
+                    {{-- Menu untuk semua role --}}
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}"
                            href="{{ route('products.index') }}">Produk</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('sales.*') ? 'active' : '' }}"
                            href="{{ route('sales.index') }}">Penjualan</a>
                     </li>
 
+                    {{-- Menu khusus Owner: master data dan restock --}}
                     @if (auth()->user()->isOwner())
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}"
@@ -44,6 +46,10 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('suppliers.*') ? 'active' : '' }}"
                                href="{{ route('suppliers.index') }}">Supplier</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('restocks.*') ? 'active' : '' }}"
+                               href="{{ route('restocks.index') }}">Restock</a>
                         </li>
                     @endif
                 </ul>

@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RestockController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Middleware\EnsureRole;
@@ -42,5 +43,6 @@ Route::middleware('auth')->group(function () {
         Route::resource('categories', CategoryController::class)->except('show');
         Route::resource('suppliers', SupplierController::class)->except('show');
         Route::resource('products', ProductController::class)->except(['index', 'show']);
+        Route::resource('restocks', RestockController::class)->only(['index', 'create', 'store', 'show']);
     });
 });
