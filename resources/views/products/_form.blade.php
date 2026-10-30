@@ -80,7 +80,7 @@
     @isset($product)
         @if ($product->image_path)
             <div class="mb-2">
-                <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}"
+                <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
                      class="img-thumbnail" style="max-height: 140px">
             </div>
         @endif

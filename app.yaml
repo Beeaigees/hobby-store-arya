@@ -22,3 +22,9 @@ env:
   CACHE_STORE: database
   QUEUE_CONNECTION: sync
   DB_CONNECTION: mysql
+  PUBLIC_DISK_ROOT: /app/public/uploads
+  PUBLIC_DISK_URL: /uploads
+
+volumes:
+  - name: uploads
+    mount: /app/public/uploads

@@ -32,7 +32,7 @@
                     <tr>
                         <td>
                             @if ($product->image_path)
-                                <img src="{{ asset('storage/' . $product->image_path) }}"
+                                <img src="{{ $product->image_url }}"
                                      alt="{{ $product->name }}"
                                      class="rounded" style="width: 56px; height: 56px; object-fit: cover">
                             @else
