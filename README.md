@@ -1,58 +1,146 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Hobby Store: Sistem Manajemen Toko Hobi
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi web back-office untuk satu toko hobi (model kit, action figure, diecast, dan perlengkapan hobi). Aplikasi mencatat stok produk, penjualan, pembelian stok (restock), dan menampilkan ringkasan keuangan untuk pemilik toko.
 
-## About Laravel
+Dibuat sebagai tugas UAS **Web Application Development** (Universitas Cakrawala) dengan Laravel 13, MySQL, dan Bootstrap 5.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Aplikasi online:** ISI_URL_APLIKASI
+- **Repository:** ISI_URL_REPOSITORY
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Pengguna dan hak akses
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Fitur | Owner | Staff |
+|---|---|---|
+| Dashboard keuangan | ✅ | ❌ |
+| Kategori (tambah/ubah/hapus) | ✅ | ❌ |
+| Supplier (tambah/ubah/hapus) | ✅ | ❌ |
+| Produk: lihat daftar | ✅ | ✅ |
+| Produk: tambah/ubah/hapus (termasuk foto) | ✅ | ❌ |
+| Restock (pengeluaran) | ✅ | ❌ |
+| Penjualan: buat dan lihat | ✅ | ✅ |
 
-## Learning Laravel
+Pendaftaran (register) bersifat publik dan akun baru otomatis berperan **Staff**. Akun Owner dibuat lewat seeder.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Akun demo (hanya untuk pengujian)
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Role | Email | Password |
+|---|---|---|
+| Owner | owner@hobbystore.test | password |
+| Staff | staff@hobbystore.test | password |
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Fitur utama
 
-## Agentic Development
+- Autentikasi manual: register, login, logout, session, dan pembatasan percobaan login
+- Role-based access control lewat middleware `EnsureRole`
+- CRUD kategori, supplier, dan produk (dengan upload foto)
+- Penjualan multi-item: stok berkurang otomatis memakai `DB::transaction` dan row locking
+- Restock multi-item: stok bertambah otomatis, mencatat pengeluaran
+- Dashboard: pemasukan, pengeluaran, selisih kas (bulan berjalan dan semua waktu), stok menipis, produk terlaris
+- Validasi input di sisi server, proteksi CSRF, escaping output (XSS), dan query terparameter (SQL Injection)
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Teknologi
 
-```bash
-composer require laravel/boost --dev
+Laravel 13, PHP 8.3, MySQL, Blade, Bootstrap 5 (CDN), dan JavaScript.
 
-php artisan boost:install
+## Struktur database (8 tabel buatan sendiri)
+
+`users`, `categories`, `suppliers`, `products`, `sales`, `sale_items`, `restocks`, `restock_items`.
+
+Relasi utama: `categories` 1-N `products`; `sales` N-M `products` lewat `sale_items`; `restocks` N-M `products` lewat `restock_items`; `suppliers` 1-N `restocks`; `users` 1-N `sales` dan `restocks`.
+
+## Struktur MVC
+
+```
+app/
+  Http/
+    Controllers/   AuthController, DashboardController, CategoryController,
+                   SupplierController, ProductController, SaleController, RestockController
+    Middleware/    EnsureRole
+  Models/          User, Category, Supplier, Product, Sale, SaleItem, Restock, RestockItem
+database/
+  migrations/      skema tabel
+  seeders/         data awal (akun demo, kategori, supplier, produk)
+  hobby_store.sql  dump database lengkap
+resources/views/   layouts, auth, categories, suppliers, products, sales, restocks, dashboard
+routes/web.php     seluruh routing
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## Menjalankan di komputer lokal
 
-## Contributing
+Prasyarat: PHP 8.3+, Composer, dan MySQL (contoh: Laragon).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. Clone repository dan masuk ke foldernya:
 
-## Code of Conduct
+   ```bash
+   git clone ISI_URL_REPOSITORY hobby-store
+   cd hobby-store
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2. Pasang dependensi:
 
-## Security Vulnerabilities
+   ```bash
+   composer install
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+3. Salin file konfigurasi dan buat kunci aplikasi:
 
-## License
+   ```bash
+   copy .env.example .env
+   php artisan key:generate
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+4. Buat database kosong bernama `hobby_store` (collation `utf8mb4_unicode_ci`):
+
+   ```bash
+   mysql -u root -e "CREATE DATABASE hobby_store CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+   ```
+
+5. Sesuaikan bagian `DB_` di file `.env` (host, port, username, password MySQL kamu).
+
+6. Isi database. Pilih salah satu:
+
+   - Lewat migration dan seeder (disarankan):
+
+     ```bash
+     php artisan migrate --seed
+     ```
+
+   - Atau impor dump SQL:
+
+     ```bash
+     mysql -u root hobby_store < database/hobby_store.sql
+     ```
+
+7. Aktifkan akses ke foto produk dan jalankan aplikasi:
+
+   ```bash
+   php artisan storage:link
+   php artisan serve
+   ```
+
+8. Buka http://127.0.0.1:8000 dan login dengan akun demo di atas.
+
+## Konfigurasi environment
+
+Semua nilai rahasia (kunci aplikasi, kredensial database) disimpan di `.env`, yang **tidak** ikut Git. Repository hanya berisi `.env.example` sebagai contoh.
+
+## Deployment
+
+Aplikasi online berjalan di **Wasmer Edge** dengan database MySQL terkelola.
+
+- `wasmer.toml` mendefinisikan runtime PHP 8.3 dan perintah menjalankan aplikasi
+- `app.yaml` berisi konfigurasi aplikasi dan variabel non-rahasia
+- `APP_KEY` disimpan sebagai secret (`wasmer app secrets create`), tidak pernah ada di file maupun di Git
+- Kredensial database dibuat dan disuntikkan oleh platform (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USERNAME`, `DB_PASSWORD`)
+- Database online diisi dari `database/hobby_store.sql`
+- Di production: `APP_ENV=production`, `APP_DEBUG=false`, cookie session hanya lewat HTTPS
+
+Langkah ringkas deploy ulang:
+
+```bash
+git clone ISI_URL_REPOSITORY hobby-store-deploy
+cd hobby-store-deploy
+composer install --no-dev --optimize-autoloader
+rmdir /s /q .git
+wasmer deploy
+```
