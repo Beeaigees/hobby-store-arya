@@ -147,4 +147,4 @@ wasmer deploy
 
 ## Batasan yang diketahui
 
-- Di aplikasi online (Wasmer Edge), foto produk yang diupload belum tampil. Penyimpanan file di platform ini berbeda dari server biasa (tidak ada symlink `storage:link`, dan filesystem tidak persisten tanpa volume). Fitur upload foto berfungsi penuh di lingkungan lokal.
+- Di aplikasi online (Wasmer Edge), foto produk yang diupload belum tampil. Penyimpanan file di platform ini berbeda dari server biasa (tidak ada symlink `storage:link`, dan filesystem tidak persisten tanpa volume). Fitur upload foto berfungsi penuh di lingkungan lokal
