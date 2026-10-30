@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Middleware\EnsureRole;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
+    Route::resource('sales', SaleController::class)->only(['index', 'create', 'store', 'show']);
 
     // Khusus Owner
     Route::middleware(EnsureRole::class . ':owner')->group(function () {

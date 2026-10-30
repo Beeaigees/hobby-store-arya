@@ -31,6 +31,11 @@
                            href="{{ route('products.index') }}">Produk</a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('sales.*') ? 'active' : '' }}"
+                           href="{{ route('sales.index') }}">Penjualan</a>
+                    </li>
+
                     @if (auth()->user()->isOwner())
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}"
