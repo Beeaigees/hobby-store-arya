@@ -1,0 +1,24 @@
+kind: wasmer.io/App.v0
+owner: muhammadaryafattah
+name: hobby-store
+package: .
+debug: false
+
+scaling:
+  mode: single_concurrency
+
+capabilities:
+  database:
+    engine: mysql
+
+env:
+  APP_NAME: "Hobby Store"
+  APP_ENV: production
+  APP_DEBUG: "false"
+  APP_URL: "https://hobby-store-muhammadaryafattah.wasmer.app"
+  LOG_CHANNEL: stderr
+  SESSION_DRIVER: database
+  SESSION_SECURE_COOKIE: "true"
+  CACHE_STORE: database
+  QUEUE_CONNECTION: sync
+  DB_CONNECTION: mysql
