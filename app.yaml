@@ -15,7 +15,7 @@ env:
   APP_NAME: "Hobby Store"
   APP_ENV: production
   APP_DEBUG: "false"
-  APP_URL: "https://hobby-store-muhammadaryafattah.wasmer.app"
+  APP_URL: "https://hobby-store.wasmer.app"
   LOG_CHANNEL: stderr
   SESSION_DRIVER: database
   SESSION_SECURE_COOKIE: "true"

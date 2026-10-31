@@ -4,8 +4,8 @@ Aplikasi web back-office untuk satu toko hobi (model kit, action figure, diecast
 
 Dibuat sebagai tugas UAS **Web Application Development** (Universitas Cakrawala) dengan Laravel 13, MySQL, dan Bootstrap 5.
 
-- **Aplikasi online:** ISI_URL_APLIKASI
-- **Repository:** ISI_URL_REPOSITORY
+- **Aplikasi online:** https://hobby-store.wasmer.app
+- **Repository:** https://github.com/Beeaigees/hobby-store-arya
 
 ## Pengguna dan hak akses
 
